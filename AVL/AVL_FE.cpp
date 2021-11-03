@@ -76,7 +76,8 @@ class AVL_Tree
            p->m_pSon[2] = q;
            
            if(q->FE == 1 || q->FE == -1) p->FE = q->FE = 0;
-           else if(q->FE == 0) p->FE = 1;
+           else if(q->FE == 0 && !l) p->FE = -1;
+           else if(q->FE == 0 && l) p->FE = 1;
 
            p=q; 
        }
@@ -96,8 +97,6 @@ class AVL_Tree
            
            r->m_pSon[2]= p->m_pSon[2];
            q->m_pSon[2] = p->m_pSon[2] = r;
-           
-           r->FE = 0;
 
            if (q->m_pSon[0] && p->m_pSon[1]){
                if (q->m_pSon[1]) q->FE = 0;
@@ -135,8 +134,6 @@ class AVL_Tree
            
            r->m_pSon[2]= p->m_pSon[2];
            q->m_pSon[2] = p->m_pSon[2] = r;
-
-           r->FE = 0;
            
            if (q->m_pSon[1] && p->m_pSon[0]) {
                if(q->m_pSon[0]) q->FE = 0; 
