@@ -144,10 +144,7 @@ class AVL_Tree
             return false;
             
        }
-       void Print()
-       {
-           Print(m_pRoot);
-       }
+       void Print(){Print(m_pRoot);}
        void Print(Nodo<T> *r)
        {
            if (!r) return;
@@ -155,7 +152,6 @@ class AVL_Tree
            Print(r->m_pSon[0]);
            Print(r->m_pSon[1]);
        }
-
        void dibujar()
        {
            ofstream archivo;
@@ -187,7 +183,6 @@ class AVL_Tree
            return NULL;
        }
 };
-
 
 // RDD
 int test1()
@@ -251,9 +246,6 @@ int test6()
     return 1;
 }
 
- 
-
-
 int main()
 {
     cout<<"Begin test "<<endl;
@@ -263,7 +255,6 @@ int main()
     //test4();
 
     test6();
-    
     
     return 1;
 }
