@@ -281,14 +281,14 @@ class AVL_Tree
            dibujar(m_pRoot, archivo);
            archivo << "\n}";
            archivo.close();
-           system("E: & cd Graphviz & cd bin & dot AVL_HEIGHT.dot -o AVL_HEIGHT.png -Tpng & AVL_HEIGHT.png");
+           //system("E: & cd Graphviz & cd bin & dot AVL_HEIGHT.dot -o AVL_HEIGHT.png -Tpng & AVL_HEIGHT.png");
        }
        void dibujar(Nodo<T> *r, ofstream &archivo)
        {
            if (!r) return;
-           archivo << r->m_Dato << ";\n ";
-           if (r->m_pSon[0]) archivo << r->m_Dato << "_" << r->FE << " -- " << r->m_pSon[0]->m_Dato << "_" << r->FE << ";\n";
-           if (r->m_pSon[1]) archivo << r->m_Dato << "_" << r->FE << " -- " << r->m_pSon[1]->m_Dato << "_" << r->FE << ";\n";
+           archivo << r->m_Dato << "[label = \"" << r->m_Dato << " | " << r->FE << "\" ]; \n";
+           if (r->m_pSon[0]) archivo << r->m_Dato << " -- " << r->m_pSon[0]->m_Dato << ";\n";
+           if (r->m_pSon[1]) archivo << r->m_Dato << " -- " << r->m_pSon[1]->m_Dato << ";\n";
            dibujar(r->m_pSon[0], archivo);
            dibujar(r->m_pSon[1], archivo);
        }
@@ -351,7 +351,7 @@ int test4()
 // FINAL
 int test6()
 {
-    ofstream s("salida.dot");
+    //ofstream s("salida.dot");
     AVL_Tree<int> A; 
     // Insert the correct includes
     srand(10); 
@@ -359,13 +359,13 @@ int test6()
     {
         // Insert the correct includes 
         int a=rand()%1000;
-        cout<<"\n INSERTANDO "<<a<<endl;
+        //cout<<"\n INSERTANDO "<<a<<endl;
         A.Add(a);
     }
 
-
-    A.Print(s);
-   // A.dibujar();
+    cout<<"Dibujando";
+    //A.Print(s);
+    A.dibujar();
 
     return 1;
 }
