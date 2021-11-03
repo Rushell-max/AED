@@ -36,35 +36,6 @@ class AVL_Tree
     private:
        Nodo<T> * m_pRoot;
     public:
-       void RDD(Nodo<T> * & p)
-       {
-           Nodo<T> *q = p->m_pSon[1];
-           p->m_pSon[1] = q->m_pSon[0];
-           q->m_pSon[0] = p;
-
-           q->m_pSon[2] = p->m_pSon[2];
-           p->m_pSon[2] = q;
-           
-           if(q->FE == 1) p->FE = q->FE = 0;
-           else if(q->FE == 0) p->FE = 1;
-           
-           p = q;
-       }
-       void RII(Nodo<T> * & p)
-       {
-           Nodo<T> *q = p->m_pSon[0];
-           
-           p->m_pSon[0] = q->m_pSon[1];
-           q->m_pSon[1] = p;
-
-           q->m_pSon[2] = p->m_pSon[2];
-           p->m_pSon[2] = q;
-           
-           if(q->FE == -1) p->FE = q->FE = 0;
-           else if(q->FE == 0) p->FE = -1;
-           
-           p = q;
-       }
        // RII = 0 Y RDD = 1
        void RS(Nodo<T> * &p, bool l)
        {
@@ -80,80 +51,6 @@ class AVL_Tree
            else if(q->FE == 0 && l) p->FE = 1;
 
            p=q; 
-       }
-       void RDI(Nodo<T> * & p)
-       {
-           Nodo<T> *q = p->m_pSon[1];
-           Nodo<T> *r = q->m_pSon[0];
-
-           p->m_pSon[1] = r->m_pSon[0];
-           if(p->m_pSon[1]) (p->m_pSon[1])->m_pSon[2] = p; 
-
-           q->m_pSon[0] = r->m_pSon[1];
-           if(q->m_pSon[0]) (q->m_pSon[0])->m_pSon[2] = q; 
-           
-           r->m_pSon[1] = q;
-           r->m_pSon[0] = p;
-           
-           r->m_pSon[2]= p->m_pSon[2];
-           q->m_pSon[2] = p->m_pSon[2] = r;
-
-           if (q->m_pSon[0] && p->m_pSon[1]){
-               if (q->m_pSon[1]) q->FE = 0;
-               else q->FE = -1;
-               if (p->m_pSon[0]) p->FE = 0;
-               else p->FE = 1;
-               r->FE = 0;
-           } else if (q->m_pSon[0]){
-               if (q->m_pSon[1]) q->FE = 0;
-               else q->FE = -1;
-               if (p->m_pSon[0]) { p->FE = -1; r->FE = 0; }
-               else p->FE = 0;
-           } else if (p->m_pSon[1]){
-               if (q->m_pSon[1]) { q->FE = 1; r->FE = 0; }
-               else q->FE = 0;
-               if (p->m_pSon[0]) p->FE = 0;
-               else p->FE = 1;
-           } else p->FE = q->FE = 0;
-
-           p = r;    
-       }
-       void RID(Nodo<T> * & p)
-       {
-           Nodo<T> *q = p->m_pSon[0];
-           Nodo<T> *r = q->m_pSon[1];
-
-           p->m_pSon[0] = r->m_pSon[1]; 
-           if(p->m_pSon[0]) (p->m_pSon[0])->m_pSon[2] = p;
-
-           q->m_pSon[1] = r->m_pSon[0];
-           if(q->m_pSon[1]) (q->m_pSon[1])->m_pSon[2] = q; 
-
-           r->m_pSon[0] = q;
-           r->m_pSon[1] = p;
-           
-           r->m_pSon[2]= p->m_pSon[2];
-           q->m_pSon[2] = p->m_pSon[2] = r;
-           
-           if (q->m_pSon[1] && p->m_pSon[0]) {
-               if(q->m_pSon[0]) q->FE = 0; 
-               else q->FE = 1;
-               if(p->m_pSon[1]) p->FE = 0;
-               else p->FE = -1;
-               r->FE = 0;
-           } else if(q->m_pSon[1]){
-               if(q->m_pSon[0]) q->FE = 0; 
-               else q->FE = 1;
-               if(p->m_pSon[1]) { p->FE = 1; r->FE = 0; }
-               else p->FE = 0;
-           } else if (p->m_pSon[0]){
-               if(q->m_pSon[0]){ q->FE = -1; r->FE = 0; }
-               else q->FE = 0;
-               if(p->m_pSon[1]) p->FE = 0;
-               else p->FE = -1;
-           } else p->FE = q->FE = 0;
-
-           p = r;          
        }
         // RID = 0 Y RDI = 1
         void RD(Nodo<T> * &p, bool l)
@@ -218,10 +115,7 @@ class AVL_Tree
        public:
        AVL_Tree() {m_pRoot = 0;}
             
-       void Add(T D)
-       {
-           Add(D, m_pRoot, NULL);
-       }
+       void Add(T D){ Add(D, m_pRoot, NULL);}
        bool Add(T D, Nodo<T> *&p, Nodo<T> * padre)
        {
             if(!p) { p = new Nodo<T>(D); p->m_pSon[2] = padre; return true;}            
@@ -261,17 +155,6 @@ class AVL_Tree
            Print(r->m_pSon[0]);
            Print(r->m_pSon[1]);
        }
-
-       void Print(Nodo<T> *r, ostream &os)
-       {
-           if (!r) return;
-           os << r->m_Dato << "[label = \"" << r->m_Dato << " | " << r->FE << "\" ]; \n";
-           if (r->m_pSon[0]) os << r->m_Dato << "--" << r->m_pSon[0]->m_Dato << ";" << endl;
-           if (r->m_pSon[1]) os << r->m_Dato << "--" << r->m_pSon[1]->m_Dato << ";" << endl;
-           Print(r->m_pSon[0], os);
-           Print(r->m_pSon[1], os);
-       }
-       void Print(ostream &os) { Print(m_pRoot, os); }
 
        void dibujar()
        {
@@ -351,7 +234,6 @@ int test4()
 // FINAL
 int test6()
 {
-    //ofstream s("salida.dot");
     AVL_Tree<int> A; 
     // Insert the correct includes
     srand(10); 
@@ -364,7 +246,6 @@ int test6()
     }
 
     cout<<"Dibujando";
-    //A.Print(s);
     A.dibujar();
 
     return 1;
